@@ -9,7 +9,7 @@ export class BrowserAudio {
   }
 
   static explodeEvents(events: Event[]): ScheduledPitchEvent[] {
-    let scheduledPitchEvents: ScheduledPitchEvent[] = [];
+    const scheduledPitchEvents: ScheduledPitchEvent[] = [];
     let offset = 0;
     events.forEach((event, i) => {
       event.frequencies.forEach((frequency, j) => {
@@ -26,14 +26,14 @@ export class BrowserAudio {
   }
 
   static createOscillators(scheduledPitchEvents: ScheduledPitchEvent[], audioCtx: AudioContext) {
-    let oscMap: Map<number, OscillatorNode> = new Map();
+    const oscMap: Map<number, OscillatorNode> = new Map();
     
     const gainNode = audioCtx.createGain();
     gainNode.gain.value = 0.3;
     gainNode.connect(audioCtx.destination);
 
     scheduledPitchEvents.forEach((ev) => {
-      let osc = audioCtx.createOscillator()
+      const osc = audioCtx.createOscillator()
       osc.frequency.value = ev.frequency;
       osc.type = "triangle";
       osc.connect(gainNode);
@@ -45,7 +45,7 @@ export class BrowserAudio {
   static playEvents(scheduledPitchEvents: ScheduledPitchEvent[], oscMap: Map<number, OscillatorNode>, audioCtx: AudioContext) {
     let startPoint = audioCtx.currentTime + 1;
     scheduledPitchEvents.forEach((ev) => {
-      let assignedOsc = oscMap.get(ev.id);
+      const assignedOsc = oscMap.get(ev.id);
       if(assignedOsc) {
         assignedOsc.start(startPoint + ev.startMoment);
         assignedOsc.stop(startPoint + ev.endMoment);
