@@ -1,6 +1,7 @@
 import './style.css'
 import type { Event } from "./types/events";
-import { BrowserAudio } from './processing/browser-audio.ts'
+import { BrowserAudio } from './processing/browser-audio.ts';
+import { EventBuilder } from './processing/event-builder.ts';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
@@ -11,12 +12,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </div>
 `
 
-let events: Event[] = [
-  { frequencies: [200, 300, 400],
-    msLength: 1000 },
-  { frequencies: [200, 320, 500],
-    msLength: 1000 },
-  { frequencies: [300, 400],
-    msLength: 1000 }
-];
-document.querySelector<HTMLButtonElement>('#cadence')?.addEventListener('click', () => BrowserAudio.play(events));
+document.querySelector<HTMLButtonElement>('#cadence')?.addEventListener('click', () => {
+  const events: Event[] = EventBuilder.orchestrateCadence("D", 31);
+  BrowserAudio.play(events);
+});

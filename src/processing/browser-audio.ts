@@ -25,7 +25,7 @@ export class BrowserAudio {
     return scheduledPitchEvents;
   }
 
-  static createOscillators(scheduledPitchEvents: ScheduledPitchEvent[], audioCtx: AudioContext) {
+  static createOscillators(scheduledPitchEvents: ScheduledPitchEvent[], audioCtx: AudioContext): Map<number, OscillatorNode> {
     const oscMap: Map<number, OscillatorNode> = new Map();
     
     const gainNode = audioCtx.createGain();
@@ -42,7 +42,7 @@ export class BrowserAudio {
     return oscMap;
   }
 
-  static playEvents(scheduledPitchEvents: ScheduledPitchEvent[], oscMap: Map<number, OscillatorNode>, audioCtx: AudioContext) {
+  static playEvents(scheduledPitchEvents: ScheduledPitchEvent[], oscMap: Map<number, OscillatorNode>, audioCtx: AudioContext): void {
     let startPoint = audioCtx.currentTime + 1;
     scheduledPitchEvents.forEach((ev) => {
       const assignedOsc = oscMap.get(ev.id);
